@@ -1,0 +1,125 @@
+code,port
+code,"0      ALC
+1      ANC
+2      BAR
+3      DAC
+4      PIZ
+5      DTH
+6      EGL
+7      FRB
+8      HOM
+9      HYD
+10     JUN
+11     5KE
+12     KET
+13     MOS
+14     NIK
+15     NOM
+16     PKC
+17     ORI
+18     SKA
+19     SNP
+20     TKI
+21     WRA
+22     HSV
+23     MOB
+24     LIA
+25     ROG
+26     DOU
+27     LUK
+28     MAP
+29     NAC
+      ... 
+630    SCH
+631    ASI
+632    BKF
+633    DAY
+634    Y62
+635     AG
+636    BCM
+637    DEC
+638    PLB
+639    CXO
+640    JBQ
+641    JIG
+642    OGS
+643    TIW
+644    OTS
+645    AMT
+646    EGE
+647    GPI
+648    NGL
+649    OLM
+650    .GA
+651    CLX
+652     CP
+653    FSC
+654     NK
+655    ADU
+656    AKT
+657    LIT
+658    A2A
+659    OSN
+Name: code, Length: 660, dtype: object"
+port,"0                            ALCAN, AK
+1                        ANCHORAGE, AK
+2         BAKER AAF - BAKER ISLAND, AK
+3                    DALTONS CACHE, AK
+4           DEW STATION PT LAY DEW, AK
+5                     DUTCH HARBOR, AK
+6                            EAGLE, AK
+7                        FAIRBANKS, AK
+8                            HOMER, AK
+9                            HYDER, AK
+10                          JUNEAU, AK
+11                       KETCHIKAN, AK
+12                       KETCHIKAN, AK
+13        MOSES POINT INTERMEDIATE, AK
+14                         NIKISKI, AK
+15                             NOM, AK
+16                     POKER CREEK, AK
+17                  PORT LIONS SPB, AK
+18                         SKAGWAY, AK
+19                 ST. PAUL ISLAND, AK
+20                          TOKEEN, AK
+21                        WRANGELL, AK
+22     MADISON COUNTY - HUNTSVILLE, AL
+23                          MOBILE, AL
+24               LITTLE ROCK, AR (BPS)
+25                     ROGERS ARPT, AR
+26                         DOUGLAS, AZ
+27                       LUKEVILLE, AZ
+28                         MARIPOSA AZ
+29                            NACO, AZ
+                    ...               
+630                 No PORT Code (SCH)
+631                 No PORT Code (ASI)
+632                 No PORT Code (BKF)
+633                 No PORT Code (DAY)
+634                 No PORT Code (Y62)
+635                  No PORT Code (AG)
+636                 No PORT Code (BCM)
+637                 No PORT Code (DEC)
+638                 No PORT Code (PLB)
+639                 No PORT Code (CXO)
+640                 No PORT Code (JBQ)
+641                 No PORT Code (JIG)
+642                 No PORT Code (OGS)
+643                 No PORT Code (TIW)
+644                 No PORT Code (OTS)
+645                 No PORT Code (AMT)
+646                 No PORT Code (EGE)
+647                 No PORT Code (GPI)
+648                 No PORT Code (NGL)
+649                 No PORT Code (OLM)
+650                 No PORT Code (.GA)
+651                 No PORT Code (CLX)
+652                  No PORT Code (CP)
+653                 No PORT Code (FSC)
+654                  No PORT Code (NK)
+655                 No PORT Code (ADU)
+656                 No PORT Code (AKT)
+657                 No PORT Code (LIT)
+658                 No PORT Code (A2A)
+659                 No PORT Code (OSN)
+Name: port, Length: 660, dtype: object"

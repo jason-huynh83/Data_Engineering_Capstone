@@ -1,0 +1,11 @@
+code,mode
+code,"0    1
+1    2
+2    3
+3    9
+Name: code, dtype: object"
+mode,"0             Air
+1             Sea
+2            Land
+3    Not reported
+Name: mode, dtype: object"

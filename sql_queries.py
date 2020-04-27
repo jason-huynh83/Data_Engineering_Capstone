@@ -1,132 +1,176 @@
+# CONFIG
+
+import configparser
+config = configparser.ConfigParser()
+config.read('capstone.cfg')
+
 # DROP TABLES
 us_demo_drop = 'DROP TABLE IF EXISTS us_demo'
 I94_immigration_table_drop = 'DROP TABLE IF EXISTS I94_immigration_table'
-airport_code_table_drop = 'DROP TABLE IF EXISTS airport_code_table'
+airport_code_table_drop = 'DROP TABLE IF EXISTS airport_code'
 global_temp_city_drop = 'DROP TABLE IF EXISTS global_temp_city'
-global_temp_country_drop = 'DROP TABLE IF EXISTS global_temp_country'
-global_temp_major_city_drop = 'DROP TABLE IF EXISTS global_temp_major_city'
-global_temp_by_state_drop = 'DROP TABLE IF EXISTS global_temp_by_state'
-global_temp_drop = 'DROP TABLE IF EXISTS global_temp'
+i94cit_res_table_drop = 'DROP TABLE IF EXISTS i94cit_res'
+i94port_table_drop = 'DROP TABLE IF EXISTS i94port'
+i94mode_table_drop = 'DROP TABLE IF EXISTS i94mode'
+i94addr_table_drop = 'DROP TABLE IF EXISTS i94addr'
+i94visa_table_drop = 'DROP TABLE IF EXISTS i94visa'
 
 # CREATE TABLES
-us_demo_table = ("""CREATE TABLE IF NOT EXISTS us_demo (
-                  City VARCHAR,
-                  State VARCHAR,
-                  Median_age FLOAT,
-                  Male_Population FLOAT,
-                  Female_Population FLOAT,
-                  Total_Population INT,
-                  Num_of_vets FLOAT,
-                  Foreign_born FLOAT,
-                  Avg_household_size FLOAT,
-                  State_code VARCHAR,
-                  Race VARCHAR,
-                  Count INT
-                  )
-""")
-
 I94_immigration_table = ("""CREATE TABLE IF NOT EXISTS I94_immigration_table (
-                            cicid FLOAT,
-                            i94yr FLOAT,
-                            i94mon FLOAT,
-                            i94cit FLOAT,
-                            i94res FLOAT,
+                            cicid VARCHAR PRIMARY KEY,
+                            i94yr VARCHAR,
+                            i94mon VARCHAR,
+                            i94cit VARCHAR,
+                            i94res VARCHAR,
                             i94port VARCHAR,
-                            arrdate FLOAT,
-                            i94mode FLOAT,
+                            arrdate VARCHAR,
+                            i94mode VARCHAR,
                             i94addr VARCHAR,
                             depdate VARCHAR,
-                            i94bir FLOAT,
-                            i94visa FLOAT,
-                            count FLOAT,
-                            dtadfile INT,
+                            i94bir VARCHAR,
+                            i94visa VARCHAR,
+                            count VARCHAR,
                             visapost VARCHAR,
-                            occup VARCHAR,
-                            entedepd VARCHAR,
-                            entdepu FLOAT,
-                            matflag VARCHAR,
-                            biryear FLOAT,
-                            dtaddto VARCHAR,
+                            biryear VARCHAR,
                             gender VARCHAR,
-                            insnum FLOAT,
                             airline VARCHAR,
-                            admnum FLOAT,
-                            fltno VARCHAR,
                             visatype VARCHAR
                             )
 """)
 
+us_demo_table = ("""CREATE TABLE IF NOT EXISTS us_demo (
+                  City VARCHAR,
+                  State VARCHAR,
+                  Median_age VARCHAR,
+                  Male_Population VARCHAR,
+                  Female_Population VARCHAR,
+                  Total_Population VARCHAR,
+                  Num_of_vets VARCHAR,
+                  Foreign_born VARCHAR,
+                  Avg_household_size VARCHAR,
+                  State_code VARCHAR,
+                  Race VARCHAR,
+                  Count VARCHAR
+                  )
+""")
+
 airport_code_table = ("""CREATE TABLE IF NOT EXISTS airport_code (
-                         ident VARCHAR,
-                         type VARCHAR,
+                         ident VARCHAR PRIMARY KEY,
                          type VARCHAR,
                          name VARCHAR,
-                         elevation_ft FLOAT,
+                         elevation_ft VARCHAR,
                          continent VARCHAR,
                          iso_country VARCHAR,
                          iso_region VARCHAR,
                          municipality VARCHAR,
                          gps_code VARCHAR,
                          iata_code VARCHAR,
-                         local_code VARCHAR
-                         coordinates VARCHAR
+                         local_code VARCHAR,
+                         Longitude VARCHAR,
+                         Latitude VARCHAR
                          )
 """)
 
 global_temp_city_table = ("""CREATE TABLE IF NOT EXISTS global_temp_city (
                        dt VARCHAR,
-                       AverageTemperature FLOAT,
-                       AverageTemperatureUncertainty FLOAT,
+                       AverageTemperature VARCHAR,
+                       AverageTemperatureUncertainty VARCHAR,
                        City VARCHAR,
                        Country VARCHAR,
-                       Latitude VARCHAR,
-                       Longitude VARCHAR
+                       Longitude VARCHAR,
+                       Latitude VARCHAR
                        )
 """)
 
-global_temp_country_table = ("""CREATE TABLE IF NOT EXISTS global_temp_country (
-                          dt VARCHAR,
-                          AverageTemperature FLOAT,
-                          AverageTemperatureUncertainty FLOAT,
-                          Country VARCHAR
-                          )
+# INSERT RECORDS
+us_demo_table_insert = ("""COPY us_demo
+                           FROM {}
+                           IAM_ROLE {}
+                           csv;
+                           """).format(config['S3']['us_demo_data'], config['IAM_ROLE']['ARN'])
+
+I94_immigration_insert = ("""COPY I94_immigration_table
+                           FROM {}
+                           IAM_ROLE {}
+                           csv;
+                           """).format(config['S3']['immigration_data'], config['IAM_ROLE']['ARN'])
+
+airport_code_insert = ("""COPY airport_code
+                           FROM {}
+                           IAM_ROLE {}
+                           csv;
+                           """).format(config['S3']['airport_data'], config['IAM_ROLE']['ARN'])
+
+
+global_temp_insert = ("""COPY global_temp_city
+                           FROM {}
+                           IAM_ROLE {}
+                           csv;
+                           """).format(config['S3']['global_temp_data'], config['IAM_ROLE']['ARN'])
+                                       
+
+#Dimension tables 
+i94cit_res_table = ("""CREATE TABLE IF NOT EXISTS i94cit_res (
+                       code VARCHAR PRIMARY KEY,
+                       country VARCHAR
+                       )
+""")
+i94cit_res_copy = ("""COPY i94cit_res
+                           FROM {}
+                           IAM_ROLE {}
+                           csv;
+                           """).format(config['S3']['i94cit_res_data'], config['IAM_ROLE']['ARN'])
+
+i94port_table = ("""CREATE TABLE IF NOT EXISTS i94port (
+                    code VARCHAR PRIMARY KEY,
+                    port VARCHAR
+                    )
 """)
 
-global_temp_major_city_table = ("""CREATE TABLE IF NOT EXISTS global_temp_major_city (
-                             dt VARCHAR,
-                             AverageTemperature FLOAT,
-                             AverageTemperatureUncertainty FLOAT,
-                             City VARCHAR,
-                             Country VARCHAR,
-                             Latitude VARCHAR,
-                             Longitude VARCHAR
-                             )
+i94port_copy = ("""COPY i94port
+                           FROM {}
+                           IAM_ROLE {}
+                           csv;
+                           """).format(config['S3']['i94port_data'], config['IAM_ROLE']['ARN'])
+
+i94mode_table = ("""CREATE TABLE IF NOT EXISTS i94mode (
+                    code VARCHAR PRIMARY KEY,
+                    mode VARCHAR
+                    )
 """)
 
-global_temp_by_state_table = ("""CREATE TABLE IF NOT EXISTS global_temp_state (
-                           dt VARCHAR,
-                           AverageTemperature FLOAT,
-                           AverageTemperatureUncertainty FLOAT,
-                           State VARCHAR,
-                           Country VARCHAR
-                           )
+i94mode_copy = ("""COPY i94mode
+                           FROM {}
+                           IAM_ROLE {}
+                           csv
+                           """).format(config['S3']['i94mode_data'], config['IAM_ROLE']['ARN'])
+
+i94addr_table = ("""CREATE TABLE IF NOT EXISTS i94addr (
+                    code VARCHAR PRIMARY KEY,
+                    addr VARCHAR
+                    )
 """)
 
-global_temp_table = ("""CREATE TABLE IF NOT EXISTS global_temp (
-                  LandAverageTemperature VARCHAR,
-                  LandAverageTemperatureUncertainty FLOAT,
-                  LandMaxTemperature FLOAT,
-                  LandMinTemperature FLOAT,
-                  LandMinTemperatureUncertainty FLOAT,
-                  LandAndOceanAverageTemperature FLOAT,
-                  LandAndOceanTemperatureUncertainty FLOAT
-                  )
+i94addr_copy = ("""COPY i94addr
+                           FROM {}
+                           IAM_ROLE {}
+                           csv;
+                           """).format(config['S3']['i94addr_data'], config['IAM_ROLE']['ARN'])
+
+i94visa_table = ("""CREATE TABLE IF NOT EXISTS i94visa (
+                    code VARCHAR PRIMARY KEY,
+                    type VARCHAR
+                    )
 """)
+
+i94visa_copy = ("""COPY i94visa
+                           FROM {}
+                           IAM_ROLE {}
+                           csv;
+                           """).format(config['S3']['i94visa_data'], config['IAM_ROLE']['ARN'])
+
+
 # QUERY LISTS
-
-create_table_queries = [us_demo_table, I94_immigration_table, airport_code_table, global_temp_city_table, global_temp_country_table, global_temp_major_city_table, global_temp_by_state_table, global_temp_table]
-drop_table_queries = [us_demo_drop, I94_immigration_table_drop, airport_code_table_drop, global_temp_city_drop, global_temp_country_drop, global_temp_major_city_drop, global_temp_by_state_drop, global_temp_drop]
-
-copy_table_queries = [staging_events_copy, staging_songs_copy]
-## Facts and Dimension tables
-insert_table_queries = [songplay_table_insert, user_table_insert, song_table_insert, artist_table_insert, time_table_insert]
+create_table_queries = [I94_immigration_table, us_demo_table, airport_code_table, global_temp_city_table, i94cit_res_table, i94port_table, i94mode_table, i94addr_table, i94visa_table]
+drop_table_queries = [us_demo_drop, I94_immigration_table_drop, airport_code_table_drop, global_temp_city_drop, i94cit_res_table_drop, i94port_table_drop, i94mode_table_drop, i94addr_table_drop, i94visa_table_drop]
+copy_table_queries = [airport_code_insert, us_demo_table_insert, I94_immigration_insert,  global_temp_insert, i94cit_res_copy, i94port_copy, i94mode_copy, i94visa_copy, i94addr_copy]
