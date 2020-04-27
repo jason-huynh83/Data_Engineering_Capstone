@@ -11,6 +11,7 @@ The following datasets are included in the project workspace. We purposely did n
 -   **Airport Code Table:**  This is a simple table of airport codes and corresponding cities. It comes from  [here](https://datahub.io/core/airport-codes#data).
 
 ## Data Model
+![](Images/F&Dcapstone.PNG)
 ## Setup
 - Create a Redshift Database to host your analytical tables
 - Run create_tables.py to ensure the necessary tables
